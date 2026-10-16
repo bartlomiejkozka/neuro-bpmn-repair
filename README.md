@@ -1,23 +1,37 @@
-# bpmn-refine
+# neuro-bpmn-repair
 
-Interactive system for validation, repair, and refinement of BPMN 2.0 diagrams using Large Language Models.
+> **Targeted BPMN Process Model Repair via Local SLMs, Conformance Checking, and Formal Verification**
 
-Part of a master's thesis: *Design and Implementation of an Interactive System Supporting Validation, Repair, and Refinement of BPMN Diagrams with Large Language Models* — AGH University of Krakow.
+`neuro-bpmn-repair` is an interactive neurosymbolic framework designed for the formal verification and targeted repair of BPMN 2.0 process models. It extends the verification pipeline by combining dynamic event-log analysis (*conformance checking*), Petri-net soundness checking, and privacy-preserving, locally hosted Small Language Models (SLMs), alongside cloud-hosted LLMs.
+
+Part of a master's thesis: *Integrating Small Language Models, Conformance Checking, and Formal Verification for Targeted Repair of BPMN Process Models* — AGH University of Krakow.
+
+---
+
+## Origins and Attribution
+
+This project is an independent continuation and hard fork of **bpmn-refine** originally developed by Michał Jurzak at AGH University of Krakow (https://github.com/bartlomiejkozka/neuro-bpmn-repair).
+
+Key extensions introduced in `neuro-bpmn-repair`:
+- **Dynamic Conformance Checking:** Integration of event-log analysis (deviations, alignments) into the multi-tiered formal validation pipeline.
+- **Privacy-Preserving SLMs:** Primary reasoning layer utilizing local Small Language Models (e.g., via Ollama/vLLM) to process sensitive business operational data without external exposure, with continued support for hosted LLM providers (OpenAI, Anthropic).
+- **Closed-Loop Neurosymbolic Repair:** Generation of atomic repair plans derived from execution discrepancies, backed by automated formal revalidation (Petri-net soundness and structural integrity).
+
+Both the original codebase and all subsequent modifications are licensed under the **GNU Affero General Public License v3.0 (AGPLv3)**.
+
+---
 
 ## What it does
 
-- **Validates** BPMN diagrams with deterministic structural rules (R001–R008), Petri-net soundness checking, and LLM semantic review
-- **Repairs** diagrams by proposing targeted fixes for detected issues
-- **Refines** diagrams through chat: the user describes intent, the system suggests changes
+- **Validates** BPMN diagrams with deterministic structural rules (R001–R008), Petri-net soundness checking, event-log conformance checking, and semantic review.
+- **Repairs** diagrams by synthesizing targeted, atomic fixes based on structural defects and observed execution log alignments.
+- **Refines** diagrams through chat: users describe intent or provide operational constraints, and the system suggests verifiable changes.
+- **Dual Model Support:** Built with a primary focus on private, locally hosted Small Language Models (SLMs) for confidential operational data, while retaining full compatibility with state-of-the-art hosted Large Language Models (LLMs) for comparative benchmarking.
 
 Repair and refinement proposals require acceptance by default. A user can explicitly enable Auto mode to apply a proposal and continue the repair loop.
 
-The supported local harnesses are Codex CLI (`codex_cli`) and Claude Code
-(`claude_cli`), alongside the existing API providers. The thesis comparison
-deliberately focuses on GPT/OpenAI and Claude/Anthropic because compute and
-budget resources are limited; Gemini CLI and Antigravity/agy are intentionally
-out of scope. See [LLM integration](docs/llm-integration.md) for executable
-paths, authentication, isolation, and version-pinning guidance.
+The supported local harnesses include Ollama / local SLM runtimes alongside CLI harnesses (`codex_cli`, `claude_cli`) and hosted API providers. See [LLM integration](docs/llm-integration.md) for executable paths, authentication, isolation, and version-pinning guidance.
+
 
 ## Architecture
 
@@ -153,8 +167,9 @@ bpmn-refine batch-validate data/rule_cases --recursive --format json --out /tmp/
 
 ## License
 
-The project's original code, including the backend and frontend, is licensed
-under the GNU Affero General Public License version 3 only
-([AGPL-3.0-only](LICENSE)). See [LICENSING.md](LICENSING.md) for scope and
-third-party exceptions. The derived evaluation dataset retains its separate
-[source attribution and license](data/eval/v1.0/ATTRIBUTION.md).
+This project is licensed under the **GNU Affero General Public License version 3 (AGPL-3.0-only)**.
+
+- Original codebase: Copyright (C) 2026 Michał Jurzak.
+- Modifications and extensions (`neuro-bpmn-repair`): Copyright (C) 2026-2027 Bartłomiej Kózka.
+
+See the full [LICENSE](LICENSE) file for complete terms and [LICENSING.md](LICENSING.md) for scope and third-party notices. The derived evaluation dataset retains its separate [source attribution and license](data/eval/v1.0/ATTRIBUTION.md).
